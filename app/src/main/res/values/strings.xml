@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">KSU Moves</string>
+    <string name="ksu">Kennesaw State University</string>
+    <string name="activites_email">jmesser3@kennesaw.edu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- nav categories -->
+    <string name="greek">Greek Life</string>
+    <string name="basketball">Basketball</string>
+    <string name="all">All Events</string>
+    <string name="football">Football</string>
+    <string name="tech">Tech</string>
+    <string name="networking">Networking</string>
+    <string name="academic">Academic</string>
+    <string name="title_activity_showinfo">Showinfo</string>
+    
+    <!-- Login -->
+    <string name="KSU_email">Enter KSU email.</string>
+    <string name="login">Login</string>
+    <string name="KSU_domain">students.kennesaw.edu</string>
+    <string name="loading">Loading</string>
+    <string name="title">The Move:KSU</string>
+    <string name="register">Register</string>
+</resources>

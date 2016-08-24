@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "308848920595",
+    "firebase_url": "https://school-events-3b62e.firebaseio.com",
+    "project_id": "school-events-3b62e",
+    "storage_bucket": "school-events-3b62e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308848920595:android:987cbe7bc1fd78a9",
+        "android_client_info": {
+          "package_name": "com.theelitelabel.schoolevents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308848920595-hilu39965e1dvcgp1gv0iv6lpdo4eklt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0EypmTiRUMD8cUlAkxooMNnFB6K2oIis"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308848920595:android:7c7017e3ea421fb0",
+        "android_client_info": {
+          "package_name": "com.theelitelabel.schoolevents2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308848920595-hilu39965e1dvcgp1gv0iv6lpdo4eklt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0EypmTiRUMD8cUlAkxooMNnFB6K2oIis"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
