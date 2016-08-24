@@ -1,12 +1,12 @@
 # ADNAP project members please read before submitting request
 
 ###All team members require the following software
-- Android Studio
-- GitHub for desktop
+- [Android Studio](https://developer.android.com/studio/index.html)
+- [GitHub for desktop](https://desktop.github.com/)
 
 
 ###to do list
-- [x] Finish UI
+- [ ] Finish UI
 - [ ] apply images to Firebase UI
 - [ ] Find bugs
 - [ ] Fix voting
