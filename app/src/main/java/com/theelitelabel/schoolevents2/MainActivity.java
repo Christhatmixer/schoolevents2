@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "WmQL3ZnaKQuXqoPXuQQwRHcNr";
-    private static final String TWITTER_SECRET = "JJojHAtS8e9s1yLOmEROswFsvpeHV3VTfRPFNjIvDQioK6XSM4";
+    private static final String TWITTER_KEY = "WmQL3ZnaKQuXqoPXuQQwRHcNr"; //DO NOT SHARE
+    private static final String TWITTER_SECRET = "JJojHAtS8e9s1yLOmEROswFsvpeHV3VTfRPFNjIvDQioK6XSM4"; //DO NOT SHARE
 
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity
         int minutes = c.get(Calendar.MINUTE);
         System.out.println("minute is" + minutes);
 
-        final Query votes = ref.orderByChild("votes");
+        final Query votes = ref.orderByChild("votes"); //order by votes
 
         final Handler handler = new Handler();
 
 
         final Runnable r = new Runnable() {
-            public void run() {
+            public void run() { //not in use
 
 
 
@@ -540,7 +540,7 @@ public class MainActivity extends AppCompatActivity
                 }
             };
             mRecyclerView.setAdapter(mAdapter);
-        } else if (id == R.id.greek) {
+        } else if (id == R.id.greek) { //show all greek events
             getSupportActionBar().setTitle("Greek Events");
             Intent intent = getIntent();
             final String user = intent.getStringExtra("user");
