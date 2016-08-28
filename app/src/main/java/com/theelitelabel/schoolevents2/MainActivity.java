@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
-                if (model.getPicture().contains("basketball.jpg")){
+                if (model.getCategory().contains("basketball")){
                     mstorage.child("basketball/colorbasketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -152,20 +152,34 @@ public class MainActivity extends AppCompatActivity
 
 
                 }
-                if(model.getPicture().contains("graduation.jpg")){
-                    //viewHolder.mView.findViewById(R.id.layout_background).setBackgroundResource(R.drawable.graduation);
-                    //Picasso.with(viewHolder.mView.getContext()).load(R.drawable.graduation);
-                    viewHolder.setPicture("gs://school-events-3b62e.appspot.com/graduation.JPG",viewHolder.mView.getContext());
+                if(model.getCategory().contains("academic")){
+                    mstorage.child("academic" +"/"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
                 }
-                if(model.getPicture().contains("kappa.jpg")){
-                    //viewHolder.mView.findViewById(R.id.layout_background).setBackgroundResource(R.drawable.kappa);
-                    //Picasso.with(viewHolder.mView.getContext()).load(R.drawable.kappa);
-                    viewHolder.setPicture("gs://school-events-3b62e.appspot.com/kappa.jpg",viewHolder.mView.getContext());
+                if(model.getCategory().contains("greek")){
+                    mstorage.child("greek"+"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                        }
+                    });
+
                 }
-                if(model.getPicture().contains("careerfair.jpg")){
-                    //viewHolder.mView.findViewById(R.id.layout_background).setBackgroundResource(R.drawable.careerfair);
-                    //Picasso.with(viewHolder.mView.getContext()).load(R.drawable.careerfair);
-                    viewHolder.setPicture("gs://school-events-3b62e.appspot.com/careerfair.jpg",viewHolder.mView.getContext());
+                if(model.getCategory().contains("networking")){
+                    mstorage.child("networking" +"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
                 }
                 viewHolder.setName(model.getName());
                 viewHolder.setVotes(Math.abs(model.getVotes()));
