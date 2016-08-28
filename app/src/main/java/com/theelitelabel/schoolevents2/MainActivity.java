@@ -1012,7 +1012,7 @@ public class MainActivity extends AppCompatActivity
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
-            Query greek = ref.orderByChild("category").equalTo("academic").equalTo("votes");
+            Query greek = ref.orderByChild("category").equalTo("academic");
             mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
