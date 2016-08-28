@@ -1,5 +1,7 @@
 package com.theelitelabel.schoolevents2;
 
+import android.widget.ImageView;
+
 /**
  * Created by cfarl_000 on 8/17/2016.
  */
@@ -12,7 +14,15 @@ public class Event {
     private String picture;
     private String description;
     private String category;
+    private ImageView background;
 
+    public ImageView getBackground() {
+        return background;
+    }
+
+    public void setBackground(ImageView background) {
+        this.background = background;
+    }
 
     public String getCategory() {
         return category;
@@ -30,7 +40,7 @@ public class Event {
         this.description = description;
     }
 
-    public Event(String name, String date,int votes, String address, String category, String description , String picture){
+    public Event(String name, String date,int votes, String address, String category, String description , String picture, ImageView background){
         this.name = name;
         this.date = date;
         //this.time = time;
@@ -38,7 +48,7 @@ public class Event {
         this.address = address;
         this.category = category;
         this.description = description;
-
+        this.background = background;
         this.picture = picture;
     }
 

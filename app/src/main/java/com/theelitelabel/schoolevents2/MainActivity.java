@@ -2,9 +2,11 @@ package com.theelitelabel.schoolevents2;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.net.sip.SipAudioCall;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -28,10 +30,13 @@ import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -101,7 +106,8 @@ public class MainActivity extends AppCompatActivity
         //Firebase database = new Firebase("https://school-events-3b62e.firebaseio.com/");
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
 
 
 
@@ -136,8 +142,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
                 if (model.getPicture().contains("basketball.jpg")){
-                    //Picasso.with(viewHolder.mView.getContext()).load("gs://school-events-3b62e.appspot.com/basketball.jpg").into();
-                    viewHolder.setPicture("gs://school-events-3b62e.appspot.com/basketball.jpg",viewHolder.mView.getContext());
+                    mstorage.child("basketball/basketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                        }
+                    });
+                    System.out.println(mstorage.child("basketball/basketball.jpg").getDownloadUrl().toString());
+
+
                 }
                 if(model.getPicture().contains("graduation.jpg")){
                     //viewHolder.mView.findViewById(R.id.layout_background).setBackgroundResource(R.drawable.graduation);
@@ -593,7 +606,7 @@ public class MainActivity extends AppCompatActivity
                                         });
 
                                     }else{
-                                        System.out.println("no user");
+                                        System.out.println("no user"); //gfdgdfghfghgtrshogtrhs
                                         final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
                                         final Firebase truedatabase = new Firebase(database);
                                         truedatabase.runTransaction(new Transaction.Handler() {

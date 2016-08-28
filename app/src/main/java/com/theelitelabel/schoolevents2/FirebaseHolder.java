@@ -75,5 +75,9 @@ public class FirebaseHolder extends RecyclerView.ViewHolder {
             }
         });
     }
+    /*public void setPicture(ImageView picture){
+        ImageView field = (ImageView)mView.findViewById(R.id.layout_background);
+        field.setImageResource(picture);
+    }*/
 
 }
