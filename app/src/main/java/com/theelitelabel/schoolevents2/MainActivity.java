@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
                 if (model.getPicture().contains("basketball.jpg")){
-                    mstorage.child("basketball/basketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("basketball/colorbasketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());

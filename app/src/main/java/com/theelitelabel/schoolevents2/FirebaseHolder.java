@@ -70,8 +70,8 @@ public class FirebaseHolder extends RecyclerView.ViewHolder {
             public void onError() {
                 Picasso.with(context)
                         .load(imageURL)
-                        .placeholder(R.drawable.ic_menu_camera)
-                        .fit().centerCrop().into(postImage);
+                        .placeholder(R.drawable.ksuyellowwhite)
+                        .fit().into(postImage);
             }
         });
     }
