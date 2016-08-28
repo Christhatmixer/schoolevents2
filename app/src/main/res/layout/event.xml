@@ -65,7 +65,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/transparent"
-            android:tint="@color/ksu_black"
+            android:tint="@android:color/white"
             android:foregroundTintMode="src_over" />
 
         <TextView
