@@ -5,6 +5,7 @@
         android:id="@+id/remind"
         android:orderInCategory="100"
         android:title="@string/reminder"
+        android:icon="@drawable/pin"
         app:showAsAction="always" />
 
 </menu>
