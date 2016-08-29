@@ -42,6 +42,7 @@
         android:layout_width="224dp"
         android:layout_height="159dp"
         android:id="@+id/calendarView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:showWeekNumber="false" />
 
 </LinearLayout>

@@ -2,10 +2,13 @@ package com.theelitelabel.schoolevents2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -104,4 +107,29 @@ public class Showinfo extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.info_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.remind){
+            Intent Rintent = getIntent();
+            String description = Rintent.getStringExtra("description");
+            String name = Rintent.getStringExtra("card");
+            String address = Rintent.getStringExtra("address");
+            Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setType("vnd.android.cursor.item/event");
+            intent.putExtra(CalendarContract.Events.TITLE, name);
+            intent.putExtra(CalendarContract.Events.DESCRIPTION,  description);
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, address);
+            //intent.putExtra(CalendarContract.Events.)
+            startActivity(intent);
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -394,7 +394,11 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) { //goes to detailed card
                         String card = model.getName();
+                        String description = model.getDescription();
+                        String address = model.getAddress();
                         Intent intent = new Intent(view.getContext(),Showinfo.class);
+                        intent.putExtra("description",description);
+                        intent.putExtra("address",address);
                         intent.putExtra("card",card); //send info class card name
                         startActivity(intent);
 
@@ -472,12 +476,47 @@ public class MainActivity extends AppCompatActivity
             mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,votes) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
-                    mstorage.child("greek" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
-                        }
-                    });
+                    if (model.getCategory().contains("basketball")){
+                        mstorage.child("basketball/colorbasketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            }
+                        });
+                        System.out.println(mstorage.child("basketball/basketball.jpg").getDownloadUrl().toString());
+
+
+                    }
+                    if(model.getCategory().contains("academic")){
+                        mstorage.child("academic" +"/"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("greek")){
+                        mstorage.child("greek"+"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("networking")){
+                        mstorage.child("networking" +"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
                     viewHolder.setDescription(model.getDescription());
@@ -588,7 +627,11 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String description = model.getDescription();
+                            String address = model.getAddress();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("description",description);
+                            intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             startActivity(intent);
 
@@ -633,7 +676,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     viewHolder.setTime(model.getDate());
-                    viewHolder.setCategory(model.getCategory());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -772,7 +815,7 @@ public class MainActivity extends AppCompatActivity
                         });
                     }
                     viewHolder.setTime(model.getDate());
-                    viewHolder.setCategory(model.getCategory());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -867,7 +910,11 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String description = model.getDescription();
+                            String address = model.getAddress();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("description",description);
+                            intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             startActivity(intent);
 
@@ -911,7 +958,7 @@ public class MainActivity extends AppCompatActivity
                         });
                     }
                     viewHolder.setTime(model.getDate());
-                    viewHolder.setCategory(model.getCategory());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -1006,7 +1053,11 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String description = model.getDescription();
+                            String address = model.getAddress();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("description",description);
+                            intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             startActivity(intent);
 
@@ -1049,7 +1100,7 @@ public class MainActivity extends AppCompatActivity
                         });
                     }
                     viewHolder.setTime(model.getDate());
-                    viewHolder.setCategory(model.getCategory());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -1146,8 +1197,12 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
                             String card = model.getName();
+                            String description = model.getDescription();
+                            String address = model.getAddress();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
-                            intent.putExtra("card",card);
+                            intent.putExtra("description",description);
+                            intent.putExtra("address",address);
+                            intent.putExtra("card",card); //send info class card name
                             startActivity(intent);
 
                         }
