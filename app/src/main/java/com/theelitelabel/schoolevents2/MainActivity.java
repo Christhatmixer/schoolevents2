@@ -181,6 +181,18 @@ public class MainActivity extends AppCompatActivity
                     });
 
                 }
+                viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent addressintent = new Intent(view.getContext(),map.class);
+                        addressintent.putExtra("lat",model.getLat());
+                        addressintent.putExtra("longitude",model.getLongitude());
+                        addressintent.putExtra("name",model.getLocation_name());
+                        System.out.println(model.getLongitude());
+                        System.out.println(model.getLat());
+                        startActivity(addressintent);
+                    }
+                });
                 viewHolder.setName(model.getName());
                 viewHolder.setVotes(Math.abs(model.getVotes()));
                 viewHolder.setDescription(model.getDescription());
@@ -388,6 +400,7 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
+
 
 
             }

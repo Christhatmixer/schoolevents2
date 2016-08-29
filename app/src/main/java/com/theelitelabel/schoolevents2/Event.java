@@ -15,6 +15,33 @@ public class Event {
     private String description;
     private String category;
     private ImageView background;
+    private float lat;
+    private float longitude;
+    private String location_name;
+
+    public String getLocation_name() {
+        return location_name;
+    }
+
+    public void setLocation_name(String location_name) {
+        this.location_name = location_name;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
 
     public ImageView getBackground() {
         return background;
