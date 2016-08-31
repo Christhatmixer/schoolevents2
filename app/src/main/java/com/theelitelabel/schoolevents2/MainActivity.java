@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("All Events");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.ksu_black));
         Firebase.setAndroidContext(this);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -130,8 +131,6 @@ public class MainActivity extends AppCompatActivity
         };
 
         handler.postDelayed(r, 3000);
-
-
 
         //votes.keepSynced(false);
         Intent intent = getIntent();
@@ -195,8 +194,8 @@ public class MainActivity extends AppCompatActivity
                 });
                 viewHolder.setName(model.getName());
                 viewHolder.setVotes(Math.abs(model.getVotes()));
-                viewHolder.setDescription(model.getDescription());
-                if (model.getDescription().length() > 8){
+                //viewHolder.setDescription(model.getDescription());
+                /*if (model.getDescription().length() > 8){
                     viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                     viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -206,7 +205,7 @@ public class MainActivity extends AppCompatActivity
                             full.show();
                         }
                     });
-                }
+                }*/
                 viewHolder.setTime(model.getDate());
                 viewHolder.setCategory(model.getCategory());
                 viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -519,8 +518,8 @@ public class MainActivity extends AppCompatActivity
 
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    viewHolder.setDescription(model.getDescription());
-                    if (model.getDescription().length() > 8){ //if description is longer than 8 characters. shorten it
+                    //viewHolder.setDescription(model.getDescription());
+                    /*if (model.getDescription().length() > 8){ //if description is longer than 8 characters. shorten it
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -530,7 +529,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.setCategory(model.getCategory());
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -637,6 +636,19 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+
 
 
                 }
@@ -663,7 +675,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -673,7 +685,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
 
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
@@ -777,6 +789,18 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
 
 
                 }
@@ -803,7 +827,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -813,7 +837,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -920,6 +944,18 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
 
 
                 }
@@ -946,7 +982,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -956,7 +992,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -1063,6 +1099,18 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
 
 
                 }
@@ -1088,7 +1136,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1098,7 +1146,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -1205,6 +1253,18 @@ public class MainActivity extends AppCompatActivity
                             intent.putExtra("card",card); //send info class card name
                             startActivity(intent);
 
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
                         }
                     });
 

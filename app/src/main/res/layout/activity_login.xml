@@ -41,7 +41,10 @@
         android:id="@+id/login"
         android:layout_below="@+id/ksu_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp" />
+        android:layout_marginTop="68dp"
+        android:elegantTextHeight="false"
+        style="@style/FirebaseUI.Button.NextButton"
+        android:textColor="@color/ksu_black" />
 
     <TextView
         android:layout_width="wrap_content"

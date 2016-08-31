@@ -34,16 +34,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="description"
-            android:id="@+id/description"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Holo.Medium"
             android:text="0"
             android:id="@+id/votes"
@@ -74,10 +64,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="date/time"
             android:id="@+id/time"
+            android:textColor="@android:color/white"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/uparrow"
-            android:layout_toStartOf="@+id/uparrow"
-            android:textColor="@android:color/white" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,9 +74,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="address"
             android:id="@+id/address"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"

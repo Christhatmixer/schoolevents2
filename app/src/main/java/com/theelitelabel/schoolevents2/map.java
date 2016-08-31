@@ -40,6 +40,7 @@ public class map extends AppCompatActivity implements OnMapReadyCallback {
         float longitude = intent.getFloatExtra("longitude",0);
         String name = intent.getStringExtra("name");
         map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(name));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude) , 14.0f));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude) , 15.0f));
+
     }
 }
