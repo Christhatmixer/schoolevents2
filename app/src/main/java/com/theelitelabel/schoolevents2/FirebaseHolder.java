@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
  */
 public class FirebaseHolder extends RecyclerView.ViewHolder {
     View mView;
+    //hgfhg
 
     public FirebaseHolder(View itemView) {
         super(itemView);
