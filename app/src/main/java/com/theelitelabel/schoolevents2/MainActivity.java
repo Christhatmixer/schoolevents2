@@ -195,8 +195,8 @@ public class MainActivity extends AppCompatActivity
                 });
                 viewHolder.setName(model.getName());
                 viewHolder.setVotes(Math.abs(model.getVotes()));
-                viewHolder.setDescription(model.getDescription());
-                if (model.getDescription().length() > 8){
+                //viewHolder.setDescription(model.getDescription());
+                /*if (model.getDescription().length() > 8){
                     viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                     viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                             full.show();
                         }
                     });
-                }
+                }*/
                 viewHolder.setTime(model.getDate());
                 viewHolder.setCategory(model.getCategory());
                 viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -519,8 +519,8 @@ public class MainActivity extends AppCompatActivity
 
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    viewHolder.setDescription(model.getDescription());
-                    if (model.getDescription().length() > 8){ //if description is longer than 8 characters. shorten it
+                    //viewHolder.setDescription(model.getDescription());
+                    /*if (model.getDescription().length() > 8){ //if description is longer than 8 characters. shorten it
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -530,7 +530,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.setCategory(model.getCategory());
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -663,7 +663,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -673,7 +673,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
 
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
@@ -803,7 +803,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -813,7 +813,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -946,7 +946,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -956,7 +956,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
@@ -1088,7 +1088,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8){
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1098,7 +1098,7 @@ public class MainActivity extends AppCompatActivity
                                 full.show();
                             }
                         });
-                    }
+                    }*/
                     viewHolder.setTime(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {

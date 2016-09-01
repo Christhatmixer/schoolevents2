@@ -71,13 +71,13 @@ public class Login extends BaseActivity {
 
 
                 }
-                else if(i == R.id.register){
+                /*else if(i == R.id.register){
                     signIn(emailfield.getText().toString().toLowerCase() + "@" + ksudomain.getText(), "KSU30101");
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     intent.putExtra("user",emailfield.getText());
                     startActivity(intent);
                     System.out.println(emailfield.getText().toString() + "@" + ksudomain.getText());
-                }
+                }*/
             }
         });
 

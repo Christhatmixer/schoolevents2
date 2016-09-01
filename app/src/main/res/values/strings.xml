@@ -17,7 +17,7 @@
     <string name="networking">Networking</string>
     <string name="academic">Academic</string>
     <string name="title_activity_showinfo">Showinfo</string>
-    
+
     <!-- Login -->
     <string name="KSU_email">Enter KSU email.</string>
     <string name="login">Login</string>
@@ -28,4 +28,5 @@
 
     <!-- info shown -->
     <string name="reminder">Reminder</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
