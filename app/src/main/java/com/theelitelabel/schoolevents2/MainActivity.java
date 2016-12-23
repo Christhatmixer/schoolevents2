@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle("All Events");
         Firebase.setAndroidContext(this);
+
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity
         System.out.println("minute is" + minutes);
 
         final Query votes = ref.orderByChild("votes"); //order by votes
+        final Query dateNum = ref.orderByChild("dateNum");
 
         final Handler handler = new Handler();
 
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         final String user = intent.getStringExtra("user");//get username from login page
         System.out.println(user);
-        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,votes) {
+        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
 
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
@@ -185,6 +187,18 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         Intent addressintent = new Intent(view.getContext(),map.class);
+                        addressintent.putExtra("lat",model.getLat());
+                        addressintent.putExtra("longitude",model.getLongitude());
+                        addressintent.putExtra("name",model.getLocation_name());
+                        System.out.println(model.getLongitude());
+                        System.out.println(model.getLat());
+                        startActivity(addressintent);
+                    }
+                });
+                viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent addressintent = new Intent(v.getContext(),map.class);
                         addressintent.putExtra("lat",model.getLat());
                         addressintent.putExtra("longitude",model.getLongitude());
                         addressintent.putExtra("name",model.getLocation_name());
@@ -396,10 +410,19 @@ public class MainActivity extends AppCompatActivity
                         String card = model.getName();
                         String description = model.getDescription();
                         String address = model.getAddress();
+                        String food = model.getFood();
+                        String alcohol = model.getAlcohol();
+                        String merchandise = model.getMerchandise();
                         Intent intent = new Intent(view.getContext(),Showinfo.class);
                         intent.putExtra("description",description);
                         intent.putExtra("address",address);
                         intent.putExtra("card",card); //send info class card name
+                        intent.putExtra("food",food);
+                        intent.putExtra("alcohol",alcohol);
+                        intent.putExtra("merchandise",merchandise);
+                        intent.putExtra("lat",model.getLat());
+                        intent.putExtra("longitude",model.getLongitude());
+                        intent.putExtra("name",model.getLocation_name());
                         startActivity(intent);
 
                     }
@@ -470,10 +493,12 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("All Events");
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
+
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query votes = ref.orderByChild("votes"); //order information by votes
-            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,votes) {
+            final Query dateNum = ref.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
                     if (model.getCategory().contains("basketball")){
@@ -629,12 +654,42 @@ public class MainActivity extends AppCompatActivity
                             String card = model.getName();
                             String description = model.getDescription();
                             String address = model.getAddress();
+                            String food = model.getFood();
+                            String alcohol = model.getAlcohol();
+                            String merchandise = model.getMerchandise();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
                             intent.putExtra("description",description);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("merchandise",merchandise);
                             startActivity(intent);
 
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
                         }
                     });
 
@@ -777,6 +832,18 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
 
 
                 }
@@ -912,12 +979,42 @@ public class MainActivity extends AppCompatActivity
                             String card = model.getName();
                             String description = model.getDescription();
                             String address = model.getAddress();
+                            String food = model.getFood();
+                            String alcohol = model.getAlcohol();
+                            String merchandise = model.getMerchandise();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
                             intent.putExtra("description",description);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("merchandise",merchandise);
                             startActivity(intent);
 
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
                         }
                     });
 
@@ -946,7 +1043,7 @@ public class MainActivity extends AppCompatActivity
                     });
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
-                    /*if (model.getDescription().length() > 8){
+                    /*if (model.getDescription().length() > 8
                         viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
                         viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1055,12 +1152,42 @@ public class MainActivity extends AppCompatActivity
                             String card = model.getName();
                             String description = model.getDescription();
                             String address = model.getAddress();
+                            String food = model.getFood();
+                            String alcohol = model.getAlcohol();
+                            String merchandise = model.getMerchandise();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
                             intent.putExtra("description",description);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("merchandise",merchandise);
                             startActivity(intent);
 
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
                         }
                     });
 
@@ -1126,7 +1253,6 @@ public class MainActivity extends AppCompatActivity
 
                                                 }
                                                 return Transaction.success(mutableData);
-
 
                                             }
 
@@ -1199,12 +1325,42 @@ public class MainActivity extends AppCompatActivity
                             String card = model.getName();
                             String description = model.getDescription();
                             String address = model.getAddress();
+                            String food = model.getFood();
+                            String alcohol = model.getAlcohol();
+                            String merchandise = model.getMerchandise();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
                             intent.putExtra("description",description);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("merchandise",merchandise);
                             startActivity(intent);
 
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocation_name());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
                         }
                     });
 
