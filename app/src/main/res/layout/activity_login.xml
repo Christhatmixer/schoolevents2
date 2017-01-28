@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,10 +9,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.theelitelabel.schoolevents2.Login"
-    android:background="@mipmap/ksuback"
-    android:backgroundTint="@color/com_facebook_device_auth_text"
-    android:backgroundTintMode="multiply">
+    android:background="@color/ksu_yellow"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="match_parent"
+        app:srcCompat="@drawable/ksumoveslogomed"
+        android:id="@+id/imageView3"
+        android:scaleType="centerInside"
+        android:layout_weight="0.64"
+        android:adjustViewBounds="true"
+        android:layout_height="0dp" />
+
+    <Button
+        android:text="@string/getStarted"
+        android:layout_width="149dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/getStartedButton"
+        tools:text="@string/getStarted"
+        android:layout_gravity="center"
+        android:background="@color/ksu_black"
+        android:textColor="@color/ksu_yellow"
+        style="@style/FirebaseUI.Button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:id="@+id/login"
+        style="@style/FirebaseUI.Button.NextButton"
+        android:backgroundTint="@color/ksu_black"
+        android:textColor="@color/ksu_yellow"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -20,37 +53,12 @@
         android:id="@+id/ksu_email"
         android:hint="@string/KSU_email"
         style="@style/FirebaseUI.EditText"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/ksu_domain"
         android:layout_toLeftOf="@+id/ksu_domain"
         android:maxLength="10"
         android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/ksu_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="77dp"
-        android:textColor="@android:color/white" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:id="@+id/login"
-        android:layout_below="@+id/ksu_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp"
-        style="@style/FirebaseUI.Button.NextButton"
-        android:backgroundTint="@color/ksu_black"
-        android:textColor="@color/ksu_yellow" />
+        android:textColorHint="@android:color/white"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,9 +66,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/KSU_domain"
         android:id="@+id/ksu_domain"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

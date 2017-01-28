@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.theelitelabel.schoolevents2.Showinfo">
+    tools:context="com.theelitelabel.schoolevents2.WebActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,17 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_showinfo" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_menu_share"
-        app:backgroundTint="@color/ksu_yellow"
-        android:tint="@color/ksu_black" />
-    <include layout="@layout/fabshare" />
+    <include layout="@layout/content_web" />
 
 </android.support.design.widget.CoordinatorLayout>

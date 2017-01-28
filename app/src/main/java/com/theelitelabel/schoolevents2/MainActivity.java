@@ -1,27 +1,21 @@
 package com.theelitelabel.schoolevents2;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.net.sip.SipAudioCall;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -30,6 +24,9 @@ import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -37,13 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +77,11 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         firstSession = true;
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
 
 
@@ -107,17 +105,18 @@ public class MainActivity extends AppCompatActivity
         //Firebase database = new Firebase("https://school-events-3b62e.firebaseio.com/");
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference events = ref.child("Events");
         final FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
 
 
 
-        Calendar c = Calendar.getInstance();
-        int minutes = c.get(Calendar.MINUTE);
-        System.out.println("minute is" + minutes);
+        /*Calendar c = Calendar.getInstance();
+        int minutes = c.get(Calendar.MINUTE);*/
+
 
         final Query votes = ref.orderByChild("votes"); //order by votes
-        final Query dateNum = ref.orderByChild("dateNum");
+        final Query dateNum = events.orderByChild("dateNum");
 
         final Handler handler = new Handler();
 
@@ -139,15 +138,15 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         final String user = intent.getStringExtra("user");//get username from login page
         System.out.println(user);
-        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
+        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,events.getRef()) {
 
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
-                if (model.getCategory().contains("basketball")){
-                    mstorage.child("basketball/colorbasketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                if (model.getCategory().contains("ncaa")){
+                    mstorage.child("ncaa" + "/" +"color"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                         }
                     });
                     System.out.println(mstorage.child("basketball/basketball.jpg").getDownloadUrl().toString());
@@ -155,29 +154,79 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("academic")){
-                    mstorage.child("academic" +"/"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("academic" +"/"+"color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
 
                         }
                     });
 
                 }
                 if(model.getCategory().contains("greek")){
-                    mstorage.child("greek"+"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("greek"+"/"+"color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                         }
                     });
 
                 }
                 if(model.getCategory().contains("networking")){
-                    mstorage.child("networking" +"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("networking" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("fun")){
+                    mstorage.child("fun" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("arts and music")){
+                    mstorage.child("arts and music" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("service")){
+                    mstorage.child("service" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("cultural")){
+                    mstorage.child("cultural" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("athletics")){
+                    mstorage.child("athletics" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
 
                         }
                     });
@@ -187,9 +236,9 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         Intent addressintent = new Intent(view.getContext(),map.class);
-                        addressintent.putExtra("lat",model.getLat());
-                        addressintent.putExtra("longitude",model.getLongitude());
-                        addressintent.putExtra("name",model.getLocation_name());
+                        addressintent.putExtra("lat",Float.valueOf(model.getLat()));
+                        addressintent.putExtra("longitude",Float.valueOf(model.getLongitude()));
+                        addressintent.putExtra("name",model.getLocationName());
                         System.out.println(model.getLongitude());
                         System.out.println(model.getLat());
                         startActivity(addressintent);
@@ -199,16 +248,16 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         Intent addressintent = new Intent(v.getContext(),map.class);
-                        addressintent.putExtra("lat",model.getLat());
-                        addressintent.putExtra("longitude",model.getLongitude());
-                        addressintent.putExtra("name",model.getLocation_name());
+                        addressintent.putExtra("lat",Float.valueOf(model.getLat()));
+                        addressintent.putExtra("longitude",Float.valueOf(model.getLongitude()));
+                        addressintent.putExtra("name",model.getLocationName());
                         System.out.println(model.getLongitude());
                         System.out.println(model.getLat());
                         startActivity(addressintent);
                     }
                 });
                 viewHolder.setName(model.getName());
-                viewHolder.setVotes(Math.abs(model.getVotes()));
+                //viewHolder.setVotes(Math.abs(model.getVotes()));
                 //viewHolder.setDescription(model.getDescription());
                 /*if (model.getDescription().length() > 8){
                     viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
@@ -221,19 +270,19 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 }*/
-                viewHolder.setTime(model.getDate());
+                viewHolder.setDate(model.getDate());
                 viewHolder.setCategory(model.getCategory());
                 viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        String voters = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() + "/voters";
+                        String voters = "https://school-events-3b62e.firebaseio.com/Events/" + getItem(position).getName() + "/voters";
                         final Firebase voterdatabase = new Firebase(voters);
                         voterdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.child(user).exists()){ //if user has voted for this
                                     System.out.println(dataSnapshot.child(user) + "has voted");
-                                    String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                    String database = "https://school-events-3b62e.firebaseio.com/Events" + getItem(position).getName() +"/votes";
                                     Firebase truedatabase = new Firebase(database);
                                     truedatabase.runTransaction(new Transaction.Handler() {
                                         @Override
@@ -264,7 +313,7 @@ public class MainActivity extends AppCompatActivity
 
                                 }else{ //user hasnt voted for this
                                     System.out.println("no user");
-                                    final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                    final String database = "https://school-events-3b62e.firebaseio.com/Events" + getItem(position).getName() +"/votes";
                                     final Firebase truedatabase = new Firebase(database);
                                     truedatabase.runTransaction(new Transaction.Handler() {
                                         @Override
@@ -408,21 +457,33 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) { //goes to detailed card
                         String card = model.getName();
+                        String organization = model.getOrganization();
                         String description = model.getDescription();
+                        String shareMessage = model.getShareMessage();
                         String address = model.getAddress();
                         String food = model.getFood();
-                        String alcohol = model.getAlcohol();
+                        String music = model.getMusic();
+                        String category = model.getCategory();
                         String merchandise = model.getMerchandise();
+                        String picture = model.getPicture();
+                        String endTime = model.getEndTime();
+                        String startTime = model.getStartTime();
                         Intent intent = new Intent(view.getContext(),Showinfo.class);
+                        intent.putExtra("organization",organization);
                         intent.putExtra("description",description);
+                        intent.putExtra("shareMessage",shareMessage);
                         intent.putExtra("address",address);
                         intent.putExtra("card",card); //send info class card name
                         intent.putExtra("food",food);
-                        intent.putExtra("alcohol",alcohol);
+                        intent.putExtra("music",music);
                         intent.putExtra("merchandise",merchandise);
                         intent.putExtra("lat",model.getLat());
                         intent.putExtra("longitude",model.getLongitude());
-                        intent.putExtra("name",model.getLocation_name());
+                        intent.putExtra("name",model.getLocationName());
+                        intent.putExtra("category",category);
+                        intent.putExtra("picture",picture);
+                        intent.putExtra("endTime", endTime);
+                        intent.putExtra("startTime",startTime);
                         startActivity(intent);
 
                     }
@@ -492,12 +553,13 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             getSupportActionBar().setTitle("All Events");
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference events = ref.child("Events");
 
 
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query votes = ref.orderByChild("votes"); //order information by votes
-            final Query dateNum = ref.orderByChild("dateNum");
+            final Query dateNum = events.orderByChild("dateNum");
             mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
@@ -505,7 +567,7 @@ public class MainActivity extends AppCompatActivity
                         mstorage.child("basketball/colorbasketball.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                             }
                         });
                         System.out.println(mstorage.child("basketball/basketball.jpg").getDownloadUrl().toString());
@@ -513,29 +575,29 @@ public class MainActivity extends AppCompatActivity
 
                     }
                     if(model.getCategory().contains("academic")){
-                        mstorage.child("academic" +"/"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        mstorage.child("academic" +"/"+"color"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
 
                             }
                         });
 
                     }
                     if(model.getCategory().contains("greek")){
-                        mstorage.child("greek"+"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        mstorage.child("greek"+"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                             }
                         });
 
                     }
                     if(model.getCategory().contains("networking")){
-                        mstorage.child("networking" +"/"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        mstorage.child("networking" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
 
                             }
                         });
@@ -556,7 +618,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }*/
-                    viewHolder.setTime(model.getDate());
+                    viewHolder.setDate(model.getDate());
                     viewHolder.setCategory(model.getCategory());
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -652,18 +714,33 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String organization = model.getOrganization();
                             String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
                             String address = model.getAddress();
                             String food = model.getFood();
-                            String alcohol = model.getAlcohol();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
                             String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
                             intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             intent.putExtra("food",food);
-                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("music",music);
                             intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
                             startActivity(intent);
 
                         }
@@ -674,7 +751,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(view.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -686,7 +763,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(v.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -713,7 +790,7 @@ public class MainActivity extends AppCompatActivity
                     mstorage.child("greek" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                         }
                     });
                     viewHolder.setName(model.getName());
@@ -730,7 +807,7 @@ public class MainActivity extends AppCompatActivity
                         });
                     }*/
 
-                    viewHolder.setTime(model.getDate());
+                    viewHolder.setDate(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -838,7 +915,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(v.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -854,7 +931,7 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("Networking Events");
             Intent intent = getIntent();
             final String user = intent.getStringExtra("user");
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Events");
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("networking");
@@ -865,7 +942,7 @@ public class MainActivity extends AppCompatActivity
                     mstorage.child("networking" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
                         }
                     });
                     viewHolder.setName(model.getName());
@@ -881,7 +958,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }*/
-                    viewHolder.setTime(model.getDate());
+                    viewHolder.setDate(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -977,18 +1054,33 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String organization = model.getOrganization();
                             String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
                             String address = model.getAddress();
                             String food = model.getFood();
-                            String alcohol = model.getAlcohol();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
                             String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
                             intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             intent.putExtra("food",food);
-                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("music",music);
                             intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
                             startActivity(intent);
 
                         }
@@ -999,7 +1091,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(view.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1011,7 +1103,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(v.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1024,10 +1116,10 @@ public class MainActivity extends AppCompatActivity
             mRecyclerView.setAdapter(mAdapter);
 
         } else if (id == R.id.basketball) {
-            getSupportActionBar().setTitle("Basketball");
+            getSupportActionBar().setTitle("NCAA");
             Intent intent = getIntent();
             final String user = intent.getStringExtra("user");
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Events");
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("basketball");
@@ -1035,10 +1127,15 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
 
-                    mstorage.child("basketball" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("basketball" +"/"+"color"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
                         }
                     });
                     viewHolder.setName(model.getName());
@@ -1054,7 +1151,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }*/
-                    viewHolder.setTime(model.getDate());
+                    viewHolder.setDate(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1150,18 +1247,33 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) { //goes to detailed card
                             String card = model.getName();
+                            String organization = model.getOrganization();
                             String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
                             String address = model.getAddress();
                             String food = model.getFood();
-                            String alcohol = model.getAlcohol();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
                             String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
                             intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             intent.putExtra("food",food);
-                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("music",music);
                             intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
                             startActivity(intent);
 
                         }
@@ -1172,7 +1284,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(view.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1184,7 +1296,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(v.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1207,12 +1319,20 @@ public class MainActivity extends AppCompatActivity
             mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
-                    mstorage.child("academic" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            viewHolder.setPicture(uri.toString(),viewHolder.mView.getContext());
-                        }
-                    });
+                    if(model.getCategory().contains("academic")){
+                        mstorage.child("academic" +"/"+"color"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(View.INVISIBLE);
+                    }
+
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
                     /*if (model.getDescription().length() > 8){
@@ -1226,7 +1346,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }*/
-                    viewHolder.setTime(model.getDate());
+                    viewHolder.setDate(model.getDate());
                     viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
                     viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1323,18 +1443,33 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
                             String card = model.getName();
+                            String organization = model.getOrganization();
                             String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
                             String address = model.getAddress();
                             String food = model.getFood();
-                            String alcohol = model.getAlcohol();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
                             String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
                             Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
                             intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
                             intent.putExtra("address",address);
                             intent.putExtra("card",card); //send info class card name
                             intent.putExtra("food",food);
-                            intent.putExtra("alcohol",alcohol);
+                            intent.putExtra("music",music);
                             intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
                             startActivity(intent);
 
                         }
@@ -1345,7 +1480,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(view.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1357,7 +1492,7 @@ public class MainActivity extends AppCompatActivity
                             Intent addressintent = new Intent(v.getContext(),map.class);
                             addressintent.putExtra("lat",model.getLat());
                             addressintent.putExtra("longitude",model.getLongitude());
-                            addressintent.putExtra("name",model.getLocation_name());
+                            addressintent.putExtra("name",model.getLocationName());
                             System.out.println(model.getLongitude());
                             System.out.println(model.getLat());
                             startActivity(addressintent);
@@ -1371,6 +1506,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }else if (id == R.id.buildings){
+
+            Intent intent = new Intent(this, BuildingList.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

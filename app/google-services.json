@@ -46,6 +46,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "308848920595-mpf6sv87leuqmhd136e50cqsprdbn5oe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theelitelabel.schoolevents2",
+            "certificate_hash": "7757F54E9D5F850969C5D27EA7830ED8C4F3CBF1"
+          }
+        },
+        {
           "client_id": "308848920595-hilu39965e1dvcgp1gv0iv6lpdo4eklt.apps.googleusercontent.com",
           "client_type": 3
         }

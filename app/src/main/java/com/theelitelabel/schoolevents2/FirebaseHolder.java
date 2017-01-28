@@ -41,9 +41,9 @@ public class FirebaseHolder extends RecyclerView.ViewHolder {
         TextView field = (TextView)mView.findViewById(R.id.address);
         field.setText(address);
     }
-    public void setTime(String time){
+    public void setDate(String date){
         TextView field = (TextView)mView.findViewById(R.id.time);
-        field.setText(time);
+        field.setText(date);
     }
     public void setDescription(String description){
         TextView field = (TextView)mView.findViewById(R.id.description);
@@ -53,10 +53,10 @@ public class FirebaseHolder extends RecyclerView.ViewHolder {
         TextView field = (TextView)mView.findViewById(R.id.category);
         field.setText(category);
     }
-    void setPicture(final String imageURL, final Context context) {
+    void setColorPicture(final String imageURL, final Context context) {
         final ImageView postImage = (ImageView) mView.findViewById(R.id.layout_background);
         if (BuildConfig.DEBUG) {
-            Picasso.with(context).setIndicatorsEnabled(true);
+            Picasso.with(context).setIndicatorsEnabled(false);
         }
         Picasso.with(context)
                 .load(imageURL)

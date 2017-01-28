@@ -28,6 +28,7 @@ public class Login extends BaseActivity {
     private static final String TAG = "EmailPassword";
     TextView ksudomain;
     Button register;
+    Button getStarted;
 
 
     @Override
@@ -38,6 +39,8 @@ public class Login extends BaseActivity {
         emailfield = (EditText)findViewById(R.id.ksu_email);
         loginbutton = (Button)findViewById(R.id.login);
         ksudomain = (TextView)findViewById(R.id.ksu_domain);
+        getStarted = (Button) findViewById(R.id.getStartedButton);
+        setTitle("");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -53,6 +56,13 @@ public class Login extends BaseActivity {
 
             }
         };
+        getStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

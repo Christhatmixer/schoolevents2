@@ -14,4 +14,18 @@
         <item name="colorAccent">@color/ksu_yellow</item>
         <item name="android:statusBarColor">@color/ksu_black</item>
     </style>
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Dialog">
+        <!-- Fill the screen -->
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+
+
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+
+
+        <!-- Just to prove it's working -->
+
+    </style>
 </resources>

@@ -7,39 +7,82 @@ import android.widget.ImageView;
  */
 public class Event {
     private String name;
+    private String organization;
     private String date;
+    private Double dateNum;
+
+    public Double getDateNum() {
+        return dateNum;
+    }
+
+    public void setDateNum(Double dateNum) {
+        this.dateNum = dateNum;
+    }
+
     private String time;
-    private int votes;
+    private String startTime;
+    private String endTime;
+    private Integer votes;
     private String address;
     private String picture;
+    private String colorPicture;
     private String description;
+    private String shareMessage;
     private String category;
     private ImageView background;
-    private float lat;
-    private float longitude;
-    private String location_name;
+    private String lat;
+    private String longitude;
+    private String locationName;
 
-    public String getLocation_name() {
-        return location_name;
+    public String getFood() {
+        return food;
     }
 
-    public void setLocation_name(String location_name) {
-        this.location_name = location_name;
+    public void setFood(String food) {
+        this.food = food;
     }
 
-    public float getLat() {
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
+    }
+
+    public String getMerchandise() {
+        return merchandise;
+    }
+
+    public void setMerchandise(String merchandise) {
+        this.merchandise = merchandise;
+    }
+
+    private String food;
+    private String music;
+    private String merchandise;
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(float lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public float getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
@@ -67,16 +110,44 @@ public class Event {
         this.description = description;
     }
 
-    public Event(String name, String date,int votes, String address, String category, String description , String picture, ImageView background){
+    public String getShareMessage() {
+        return shareMessage;
+    }
+
+    public void setShareMessage(String shareMessage) {
+        this.shareMessage = shareMessage;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public Event(String name, String organization,String locationName,String date, Double dateNum,String endTime,String startTime,int votes, String address, String category, String description , String shareMessage,String picture, String colorPicture,ImageView background,
+                 String food, String music, String merchandise, String lat, String longitude){
         this.name = name;
+        this.organization = organization;
+        this.locationName = locationName;
         this.date = date;
-        //this.time = time;
+        this.dateNum = dateNum;
+        this.endTime = endTime;
+        this.startTime = startTime;
         this.votes = votes;
         this.address = address;
+        this.lat = lat;
+        this.longitude = longitude;
         this.category = category;
         this.description = description;
+        this.shareMessage = shareMessage;
         this.background = background;
         this.picture = picture;
+        this.colorPicture = colorPicture;
+        this.food = food;
+        this.music = music;
+        this.merchandise = merchandise;
     }
 
     public String getPicture() {
@@ -87,6 +158,8 @@ public class Event {
         this.picture = picture;
     }
 
+
+
     public String getAddress() {
         return address;
     }
@@ -95,7 +168,7 @@ public class Event {
         this.address = address;
     }
 
-    public int getVotes() {
+    public Integer getVotes() {
         return votes;
     }
 
@@ -117,6 +190,30 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getColorPicture() {
+        return colorPicture;
+    }
+
+    public void setColorPicture(String colorPicture) {
+        this.colorPicture = colorPicture;
     }
 
     public String getTime() {

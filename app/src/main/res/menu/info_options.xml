@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/remind"
-        android:orderInCategory="100"
+        android:orderInCategory="200"
         android:title="@string/reminder"
         android:icon="@drawable/pin"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/map"
+        android:orderInCategory="100"
+        android:title="map"
+        android:icon="@drawable/ic_location2"
+        app:showAsAction="ifRoom"
+        />
 
 </menu>
