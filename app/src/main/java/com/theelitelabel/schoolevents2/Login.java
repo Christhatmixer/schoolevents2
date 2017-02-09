@@ -1,19 +1,17 @@
 package com.theelitelabel.schoolevents2;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.core.Tag;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,12 +32,17 @@ public class Login extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_login);
+
         mAuth = FirebaseAuth.getInstance();
         emailfield = (EditText)findViewById(R.id.ksu_email);
         loginbutton = (Button)findViewById(R.id.login);
         ksudomain = (TextView)findViewById(R.id.ksu_domain);
         getStarted = (Button) findViewById(R.id.getStartedButton);
+
+
         setTitle("");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {

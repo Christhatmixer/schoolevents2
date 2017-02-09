@@ -23,20 +23,20 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
         Intent intent = getIntent();
         String webLink = intent.getStringExtra("site");
         String organization = intent.getStringExtra("name");
+        Window w = getWindow();
+
         website = (WebView) findViewById(R.id.website);
         website.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         website.setWebViewClient(new WebViewClient());
         WebSettings webSettings = website.getSettings();
         webSettings.setJavaScriptEnabled(true);
         website.loadUrl(webLink);
-        toolbar.setTitle(organization);
-        Window w = getWindow();
-        w.setTitle(organization);
+
+
 
 
 

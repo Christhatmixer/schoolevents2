@@ -143,13 +143,16 @@ public class Showinfo extends AppCompatActivity {
         clock.setText(startTimeIntent + "-" + endTimeIntent);
         name.setText(card);
         if (merchandiseIntent.contains("No")){
-            merchandise.setVisibility(View.INVISIBLE);
+            merchandise.setImageAlpha(20);
+
         }
         if (foodIntent.contains("No")){
-            food.setVisibility(View.INVISIBLE);
+            food.setImageAlpha(20);
         }
-        if (merchandiseIntent.contains("No")){
-            merchandise.setVisibility(View.INVISIBLE);
+        if (musicIntent.contains("No")){
+            music.setImageAlpha(20);
+
+
         }
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
         layoutParams.rightMargin += (int) (fab1.getWidth() * 1.7);
@@ -167,7 +170,7 @@ public class Showinfo extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplication(), "Floating Action Button 1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "Coming Soon", Toast.LENGTH_SHORT).show();
                 ShareLinkContent content = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse("https://developers.facebook.com"))
                         .setContentDescription(descriptionIntent)
@@ -179,7 +182,6 @@ public class Showinfo extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplication(), "Floating Action Button 2", Toast.LENGTH_SHORT).show();
                 Fabric.with(v.getContext(),new TwitterCore(authconfig),new TweetComposer());
                 final TweetComposer.Builder builder = new TweetComposer.Builder(v.getContext())
                         .text(shareMessageIntent);

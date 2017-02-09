@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">KSU Moves</string>
     <string name="ksu">Kennesaw State University</string>
-    <string name="activites_email">jmesser3@kennesaw.edu</string>
+    <string name="activites_email">techSupport@adnap.co</string>
     <string name="facebook_app_id">1637617026542043</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -18,6 +18,9 @@
     <string name="networking">Networking</string>
     <string name="academic">Academic</string>
     <string name="fun">Fun</string>
+    <string name="arts">Arts</string>
+    <string name="service">Service</string>
+    <string name="social">Social</string>
     <string name="title_activity_showinfo">Showinfo</string>
 
     <!-- Login -->
@@ -35,6 +38,10 @@
     <string name="title_activity_building_list">BuildingList</string>
     <string name="title_activity_web">WebActivity</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-4066391650748754/6507739821
+</string>
+    <string name="title_activity_uber">Uber</string>
+    <!-- Uber -->
+
 
 </resources>

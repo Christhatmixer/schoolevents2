@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,7 +33,7 @@ public class BuildingList extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     HashMap<String, ArrayList<Integer>> buildings = new HashMap<String, ArrayList<Integer>>();
-    String[] buildingsList ={"Baily Athletic Facility",
+    String[] buildingsList ={"Bailey Athletic Facility",
             "Bailey Performance Hall", "Baseball Field","Burruss", "Campus Green", "Campus Services", "Chastain Pointe",
             "Clendenin", "Convocation Center", "Education Classroom Facility", "English Building",
             "Gazebo", "House 48 - ASap", "House 49 - Cox Family Enterprise", "House 51 - TBD",
@@ -110,14 +108,7 @@ public class BuildingList extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
 

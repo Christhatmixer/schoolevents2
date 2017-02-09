@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_btn_speak_now"
+        android:src="@drawable/logo_googleg_color_18dp"
         android:visibility="invisible"
         app:backgroundTint="@color/ksu_yellow"
         app:fabSize="mini" />

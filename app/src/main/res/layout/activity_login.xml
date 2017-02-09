@@ -16,7 +16,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        app:srcCompat="@drawable/ksumoveslogomed"
+        app:srcCompat="@drawable/logov3med"
         android:id="@+id/imageView3"
         android:scaleType="centerInside"
         android:layout_weight="0.64"

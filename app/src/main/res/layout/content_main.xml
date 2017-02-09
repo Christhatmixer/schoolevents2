@@ -17,13 +17,13 @@
         android:layout_width="match_parent"
         android:animateLayoutChanges="false"
         android:nestedScrollingEnabled="true"
-        android:layout_height="550dp" />
+        android:layout_height="500dp" />
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
+        ads:adUnitId="@string/banner_ad_unit_id"
+        app:adSize="BANNER">
     </com.google.android.gms.ads.AdView>
 </LinearLayout>

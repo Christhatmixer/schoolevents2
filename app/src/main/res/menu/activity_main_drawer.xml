@@ -24,8 +24,20 @@
             android:title="@string/academic" />
         <item
             android:id="@+id/fun"
-            android:icon="@drawable/graduationhat"
-            android:title="@string/academic" />
+            android:icon="@drawable/ic_bowling"
+            android:title="@string/fun" />
+        <item
+            android:id="@+id/musicandarts"
+            android:icon="@drawable/ic_musicnote"
+            android:title="@string/arts" />
+        <item
+            android:id="@+id/service"
+            android:icon="@drawable/ic_boxhandle"
+            android:title="@string/service" />
+        <item
+            android:id="@+id/social"
+            android:icon="@drawable/sharesignaluser"
+            android:title="@string/social" />
 
     </group>
 

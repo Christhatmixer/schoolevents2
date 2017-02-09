@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -27,7 +28,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +41,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
+
+import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.ksu_black));
         toolbar.setTitle("All Events");
         Firebase.setAndroidContext(this);
 
@@ -138,12 +141,12 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         final String user = intent.getStringExtra("user");//get username from login page
         System.out.println(user);
-        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,events.getRef()) {
+        mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
 
             @Override
             protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
                 if (model.getCategory().contains("ncaa")){
-                    mstorage.child("ncaa" + "/" +"color"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("ncaa" + "/" + model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("greek")){
-                    mstorage.child("greek"+"/"+"color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("greek"+"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("networking")){
-                    mstorage.child("networking" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("networking" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -183,7 +186,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("fun")){
-                    mstorage.child("fun" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("fun" +"/"+  model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("arts and music")){
-                    mstorage.child("arts and music" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("arts" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -213,7 +216,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 if(model.getCategory().contains("cultural")){
-                    mstorage.child("cultural" +"/"+ "color" + model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mstorage.child("cultural" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -224,6 +227,16 @@ public class MainActivity extends AppCompatActivity
                 }
                 if(model.getCategory().contains("athletics")){
                     mstorage.child("athletics" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                        }
+                    });
+
+                }
+                if(model.getCategory().contains("social")){
+                    mstorage.child("social" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -575,7 +588,7 @@ public class MainActivity extends AppCompatActivity
 
                     }
                     if(model.getCategory().contains("academic")){
-                        mstorage.child("academic" +"/"+"color"+ model.getPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        mstorage.child("academic" +"/"+model.getColorPicture().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -603,6 +616,58 @@ public class MainActivity extends AppCompatActivity
                         });
 
                     }
+                    if(model.getCategory().contains("ncaa")){
+                        mstorage.child("ncaa" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("fun")){
+                        mstorage.child("fun" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("service")){
+                        mstorage.child("service" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("cultural")){
+                        mstorage.child("cultural" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    if(model.getCategory().contains("social")){
+                        mstorage.child("social" +"/"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+
+
 
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
@@ -782,17 +847,29 @@ public class MainActivity extends AppCompatActivity
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("greek"); //organize by greek events
-            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
+            DatabaseReference events = ref.child("greek");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
 
 
-                    mstorage.child("greek" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
-                        }
-                    });
+                    if(model.getCategory().contains("greek")){
+                        mstorage.child("greek" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) viewHolder.mView.getLayoutParams();
+                        layoutParams.setMargins(0, 0, 0, 0);
+                        viewHolder.mView.setLayoutParams(layoutParams);
+                    }
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
                     /*if (model.getDescription().length() > 8){
@@ -927,24 +1004,37 @@ public class MainActivity extends AppCompatActivity
             };
             mRecyclerView.setAdapter(mAdapter);
 
-        } else if (id == R.id.networking) {
+        } else if (id == R.id.networking) { // Show all networking events
             getSupportActionBar().setTitle("Networking Events");
             Intent intent = getIntent();
             final String user = intent.getStringExtra("user");
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Events");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("networking");
-            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
+            DatabaseReference events = ref.child("networking");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
 
-                    mstorage.child("networking" +"/"+model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
-                        }
-                    });
+                    if(model.getCategory().contains("networking")){
+                        mstorage.child("networking" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+
+
+
+
+                    }
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
                     /*if (model.getDescription().length() > 8){
@@ -1115,29 +1205,34 @@ public class MainActivity extends AppCompatActivity
             };
             mRecyclerView.setAdapter(mAdapter);
 
-        } else if (id == R.id.basketball) {
+
+        } else if (id == R.id.basketball) { //show all ncaa events
             getSupportActionBar().setTitle("NCAA");
             Intent intent = getIntent();
             final String user = intent.getStringExtra("user");
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Events");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("basketball");
-            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
+            DatabaseReference events = ref.child("ncaa");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
 
-                    mstorage.child("basketball" +"/"+"color"+ model.getPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    if(model.getCategory().contains("ncaa")){
+                        mstorage.child("ncaa" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
 
-                        }
-                    });
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                    }
                     viewHolder.setName(model.getName());
                     viewHolder.setVotes(Math.abs(model.getVotes()));
                     /*if (model.getDescription().length() > 8
@@ -1316,11 +1411,13 @@ public class MainActivity extends AppCompatActivity
             final FirebaseStorage storage = FirebaseStorage.getInstance();
             final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
             Query greek = ref.orderByChild("category").equalTo("academic");
-            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,greek) {
+            DatabaseReference events = ref.child("academic");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
                 @Override
                 protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
                     if(model.getCategory().contains("academic")){
-                        mstorage.child("academic" +"/"+"color"+ model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        mstorage.child("academic" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
@@ -1330,7 +1427,7 @@ public class MainActivity extends AppCompatActivity
 
                     }
                     else {
-                        viewHolder.mView.setVisibility(View.INVISIBLE);
+                        viewHolder.mView.setVisibility(GONE);
                     }
 
                     viewHolder.setName(model.getName());
@@ -1501,10 +1598,828 @@ public class MainActivity extends AppCompatActivity
 
 
                 }
+
+            };
+            mRecyclerView.setAdapter(mAdapter);
+        } else if (id == R.id.fun) { // show all fun events
+            getSupportActionBar().setTitle("Fun");
+            Intent intent = getIntent();
+            final String user = intent.getStringExtra("user");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            final FirebaseStorage storage = FirebaseStorage.getInstance();
+            final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
+            Query greek = ref.orderByChild("category").equalTo("academic");
+            DatabaseReference events = ref.child("fun");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
+                @Override
+                protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
+                    if(model.getCategory().contains("fun")){
+                        mstorage.child("fun" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) viewHolder.mView.getLayoutParams();
+                        layoutParams.setMargins(0, 0, 0, 0);
+                        viewHolder.mView.setLayoutParams(layoutParams);
+                    }
+
+                    viewHolder.setName(model.getName());
+                    viewHolder.setVotes(Math.abs(model.getVotes()));
+                    /*if (model.getDescription().length() > 8){
+                        viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
+                        viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder full = new AlertDialog.Builder(view.getContext());
+                                full.setMessage(model.getDescription());
+                                full.show();
+                            }
+                        });
+                    }*/
+                    viewHolder.setDate(model.getDate());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
+                    viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.mView.findViewById(R.id.uparrow).setClickable(false);
+                            String voters = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() + "/voters"; //Check who has voted
+                            final Firebase voterdatabase = new Firebase(voters);
+                            voterdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.child(user).exists()){ // if this user has voted
+                                        System.out.println(dataSnapshot.child(user) + "has voted");
+                                        String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() + 1);
+                                                    viewHolder.mView.findViewById(R.id.uparrow).setClickable(true);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                voterdatabase.child(user).removeValue();
+
+                                                notifyDataSetChanged();
+
+
+                                            }
+
+                                        });
+
+                                    }else{
+                                        System.out.println("no user");
+                                        final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        final Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() - 1);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                //final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                // ref = database.getReference("https://school-events-3b62e.firebaseio.com/" + getItem(position).getName().toString() + "/voters");
+                                                //Map<String, Object> voterUpdates = new HashMap<String, Object>();
+                                                //voterUpdates.put(user, "voted");
+
+                                                //ref.updateChildren(voterUpdates);
+
+                                                Map<String, Object> nickname = new HashMap<String, Object>();
+                                                nickname.put(user, "voted");
+                                                voterdatabase.updateChildren(nickname);
+
+                                                //Firebase ref = voterdatabase.push();
+                                                //ref.setValue("voted");
+                                                //notifyDataSetChanged();
+                                                //view.setPressed(true);
+
+                                            }
+
+                                        });
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.person1_card).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String card = model.getName();
+                            String organization = model.getOrganization();
+                            String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
+                            String address = model.getAddress();
+                            String food = model.getFood();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
+                            String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
+                            Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
+                            intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
+                            intent.putExtra("address",address);
+                            intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("music",music);
+                            intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
+                            startActivity(intent);
+
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+
+
+                }
+
+            };
+            mRecyclerView.setAdapter(mAdapter);
+        } else if (id == R.id.musicandarts) { // show all music and arts events
+            getSupportActionBar().setTitle("Arts");
+            Intent intent = getIntent();
+            final String user = intent.getStringExtra("user");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            final FirebaseStorage storage = FirebaseStorage.getInstance();
+            final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
+            Query greek = ref.orderByChild("category").equalTo("academic");
+            DatabaseReference events = ref.child("arts");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
+                @Override
+                protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
+                    if(model.getCategory().contains("fun")){
+                        mstorage.child("arts" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                    }
+
+                    viewHolder.setName(model.getName());
+                    viewHolder.setVotes(Math.abs(model.getVotes()));
+                    /*if (model.getDescription().length() > 8){
+                        viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
+                        viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder full = new AlertDialog.Builder(view.getContext());
+                                full.setMessage(model.getDescription());
+                                full.show();
+                            }
+                        });
+                    }*/
+                    viewHolder.setDate(model.getDate());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
+                    viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.mView.findViewById(R.id.uparrow).setClickable(false);
+                            String voters = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() + "/voters"; //Check who has voted
+                            final Firebase voterdatabase = new Firebase(voters);
+                            voterdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.child(user).exists()){ // if this user has voted
+                                        System.out.println(dataSnapshot.child(user) + "has voted");
+                                        String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() + 1);
+                                                    viewHolder.mView.findViewById(R.id.uparrow).setClickable(true);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                voterdatabase.child(user).removeValue();
+
+                                                notifyDataSetChanged();
+
+
+                                            }
+
+                                        });
+
+                                    }else{
+                                        System.out.println("no user");
+                                        final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        final Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() - 1);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                //final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                // ref = database.getReference("https://school-events-3b62e.firebaseio.com/" + getItem(position).getName().toString() + "/voters");
+                                                //Map<String, Object> voterUpdates = new HashMap<String, Object>();
+                                                //voterUpdates.put(user, "voted");
+
+                                                //ref.updateChildren(voterUpdates);
+
+                                                Map<String, Object> nickname = new HashMap<String, Object>();
+                                                nickname.put(user, "voted");
+                                                voterdatabase.updateChildren(nickname);
+
+                                                //Firebase ref = voterdatabase.push();
+                                                //ref.setValue("voted");
+                                                //notifyDataSetChanged();
+                                                //view.setPressed(true);
+
+                                            }
+
+                                        });
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.person1_card).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String card = model.getName();
+                            String organization = model.getOrganization();
+                            String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
+                            String address = model.getAddress();
+                            String food = model.getFood();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
+                            String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
+                            Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
+                            intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
+                            intent.putExtra("address",address);
+                            intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("music",music);
+                            intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
+                            startActivity(intent);
+
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+
+
+                }
+
+            };
+            mRecyclerView.setAdapter(mAdapter);
+        } else if (id == R.id.service) {
+            getSupportActionBar().setTitle("Service");
+            Intent intent = getIntent();
+            final String user = intent.getStringExtra("user");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            final FirebaseStorage storage = FirebaseStorage.getInstance();
+            final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
+            Query greek = ref.orderByChild("category").equalTo("academic");
+            DatabaseReference events = ref.child("arts");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
+                @Override
+                protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
+                    if(model.getCategory().contains("fun")){
+                        mstorage.child("service" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                    }
+
+                    viewHolder.setName(model.getName());
+                    viewHolder.setVotes(Math.abs(model.getVotes()));
+                    /*if (model.getDescription().length() > 8){
+                        viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
+                        viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder full = new AlertDialog.Builder(view.getContext());
+                                full.setMessage(model.getDescription());
+                                full.show();
+                            }
+                        });
+                    }*/
+                    viewHolder.setDate(model.getDate());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
+                    viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.mView.findViewById(R.id.uparrow).setClickable(false);
+                            String voters = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() + "/voters"; //Check who has voted
+                            final Firebase voterdatabase = new Firebase(voters);
+                            voterdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.child(user).exists()){ // if this user has voted
+                                        System.out.println(dataSnapshot.child(user) + "has voted");
+                                        String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() + 1);
+                                                    viewHolder.mView.findViewById(R.id.uparrow).setClickable(true);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                voterdatabase.child(user).removeValue();
+
+                                                notifyDataSetChanged();
+
+
+                                            }
+
+                                        });
+
+                                    }else{
+                                        System.out.println("no user");
+                                        final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        final Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() - 1);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                //final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                // ref = database.getReference("https://school-events-3b62e.firebaseio.com/" + getItem(position).getName().toString() + "/voters");
+                                                //Map<String, Object> voterUpdates = new HashMap<String, Object>();
+                                                //voterUpdates.put(user, "voted");
+
+                                                //ref.updateChildren(voterUpdates);
+
+                                                Map<String, Object> nickname = new HashMap<String, Object>();
+                                                nickname.put(user, "voted");
+                                                voterdatabase.updateChildren(nickname);
+
+                                                //Firebase ref = voterdatabase.push();
+                                                //ref.setValue("voted");
+                                                //notifyDataSetChanged();
+                                                //view.setPressed(true);
+
+                                            }
+
+                                        });
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.person1_card).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String card = model.getName();
+                            String organization = model.getOrganization();
+                            String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
+                            String address = model.getAddress();
+                            String food = model.getFood();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
+                            String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
+                            Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
+                            intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
+                            intent.putExtra("address",address);
+                            intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("music",music);
+                            intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
+                            startActivity(intent);
+
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+
+
+                }
+
+            };
+            mRecyclerView.setAdapter(mAdapter);
+        } else if (id == R.id.social) {
+            getSupportActionBar().setTitle("Social");
+            Intent intent = getIntent();
+            final String user = intent.getStringExtra("user");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+            final FirebaseStorage storage = FirebaseStorage.getInstance();
+            final StorageReference mstorage = storage.getReferenceFromUrl("gs://school-events-3b62e.appspot.com");
+            Query greek = ref.orderByChild("category").equalTo("academic");
+            DatabaseReference events = ref.child("arts");
+            final Query dateNum = events.orderByChild("dateNum");
+            mAdapter = new FirebaseRecyclerAdapter<Event, FirebaseHolder>(Event.class,R.layout.event,FirebaseHolder.class,dateNum) {
+                @Override
+                protected void populateViewHolder(final FirebaseHolder viewHolder, final Event model, final int position) {
+                    if(model.getCategory().contains("fun")){
+                        mstorage.child("social" +"/"+model.getColorPicture()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                viewHolder.setColorPicture(uri.toString(),viewHolder.mView.getContext());
+
+                            }
+                        });
+
+                    }
+                    else {
+                        viewHolder.mView.setVisibility(GONE);
+                    }
+
+                    viewHolder.setName(model.getName());
+                    viewHolder.setVotes(Math.abs(model.getVotes()));
+                    /*if (model.getDescription().length() > 8){
+                        viewHolder.setDescription(model.getDescription().substring(0,8) + "...");
+                        viewHolder.mView.findViewById(R.id.description).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder full = new AlertDialog.Builder(view.getContext());
+                                full.setMessage(model.getDescription());
+                                full.show();
+                            }
+                        });
+                    }*/
+                    viewHolder.setDate(model.getDate());
+                    viewHolder.mView.findViewById(R.id.category).setVisibility(View.INVISIBLE);
+                    viewHolder.mView.findViewById(R.id.uparrow).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.mView.findViewById(R.id.uparrow).setClickable(false);
+                            String voters = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() + "/voters"; //Check who has voted
+                            final Firebase voterdatabase = new Firebase(voters);
+                            voterdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.child(user).exists()){ // if this user has voted
+                                        System.out.println(dataSnapshot.child(user) + "has voted");
+                                        String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() + 1);
+                                                    viewHolder.mView.findViewById(R.id.uparrow).setClickable(true);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                voterdatabase.child(user).removeValue();
+
+                                                notifyDataSetChanged();
+
+
+                                            }
+
+                                        });
+
+                                    }else{
+                                        System.out.println("no user");
+                                        final String database = "https://school-events-3b62e.firebaseio.com/" + getItem(position).getName() +"/votes";
+                                        final Firebase truedatabase = new Firebase(database);
+                                        truedatabase.runTransaction(new Transaction.Handler() {
+                                            @Override
+                                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                                if (mutableData.getValue() == null) {
+                                                    mutableData.setValue(-1);
+
+                                                } else {
+                                                    mutableData.setValue((long) mutableData.getValue() - 1);
+
+                                                }
+                                                return Transaction.success(mutableData);
+
+                                            }
+
+                                            @Override
+                                            public void onComplete(FirebaseError firebaseError, boolean b, DataSnapshot dataSnapshot) {
+                                                //final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                // ref = database.getReference("https://school-events-3b62e.firebaseio.com/" + getItem(position).getName().toString() + "/voters");
+                                                //Map<String, Object> voterUpdates = new HashMap<String, Object>();
+                                                //voterUpdates.put(user, "voted");
+
+                                                //ref.updateChildren(voterUpdates);
+
+                                                Map<String, Object> nickname = new HashMap<String, Object>();
+                                                nickname.put(user, "voted");
+                                                voterdatabase.updateChildren(nickname);
+
+                                                //Firebase ref = voterdatabase.push();
+                                                //ref.setValue("voted");
+                                                //notifyDataSetChanged();
+                                                //view.setPressed(true);
+
+                                            }
+
+                                        });
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.person1_card).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String card = model.getName();
+                            String organization = model.getOrganization();
+                            String description = model.getDescription();
+                            String shareMessage = model.getShareMessage();
+                            String address = model.getAddress();
+                            String food = model.getFood();
+                            String music = model.getMusic();
+                            String category = model.getCategory();
+                            String merchandise = model.getMerchandise();
+                            String picture = model.getPicture();
+                            String endTime = model.getEndTime();
+                            String startTime = model.getStartTime();
+                            Intent intent = new Intent(view.getContext(),Showinfo.class);
+                            intent.putExtra("organization",organization);
+                            intent.putExtra("description",description);
+                            intent.putExtra("shareMessage",shareMessage);
+                            intent.putExtra("address",address);
+                            intent.putExtra("card",card); //send info class card name
+                            intent.putExtra("food",food);
+                            intent.putExtra("music",music);
+                            intent.putExtra("merchandise",merchandise);
+                            intent.putExtra("lat",model.getLat());
+                            intent.putExtra("longitude",model.getLongitude());
+                            intent.putExtra("name",model.getLocationName());
+                            intent.putExtra("category",category);
+                            intent.putExtra("picture",picture);
+                            intent.putExtra("endTime", endTime);
+                            intent.putExtra("startTime",startTime);
+                            startActivity(intent);
+
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent addressintent = new Intent(view.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+                    viewHolder.mView.findViewById(R.id.addressButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent addressintent = new Intent(v.getContext(),map.class);
+                            addressintent.putExtra("lat",model.getLat());
+                            addressintent.putExtra("longitude",model.getLongitude());
+                            addressintent.putExtra("name",model.getLocationName());
+                            System.out.println(model.getLongitude());
+                            System.out.println(model.getLat());
+                            startActivity(addressintent);
+                        }
+                    });
+
+
+                }
+
             };
             mRecyclerView.setAdapter(mAdapter);
 
+
+
         } else if (id == R.id.nav_send) {
+            Log.i("Send email", "");
+            String[] TO = {"techSupport@adnap.co"};
+            String[] CC = {""};
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.putExtra(Intent.EXTRA_CC, CC);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+            emailIntent.setType("message/rfc822");
+
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                finish();
+                Log.i("Finished", "");
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            }
 
         }else if (id == R.id.buildings){
 
